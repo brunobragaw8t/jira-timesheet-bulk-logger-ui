@@ -23,8 +23,13 @@ const value = defineModel()
       class="block w-full rounded-md border border-gray-800 px-3 py-1 text-sm bg-transparent text-gray-200 focus-visible:outline-none"
     >
 
-    <div v-if="instructions" class="block mt-1 text-gray-400 text-xs">
-      {{ instructions }}
+    <div v-if="instructions" class="flex mt-1 text-gray-400 text-xs">
+      <Icon
+        name="material-symbols:info-outline-rounded"
+        class="shrink-0 mr-1 h-4"
+      />
+
+      <span>{{ instructions }}</span>
     </div>
   </div>
 </template>
