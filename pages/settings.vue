@@ -7,17 +7,11 @@ useHead({
   title: 'Settings - Jira Timesheet Bulk Logger UI'
 })
 
+const settings = useSettings()
+
 /**
  * State
  */
-
-const loading = ref(true)
-
-const settings = ref({
-  cloudId: '',
-  email: '',
-  apiKey: ''
-})
 
 const displaySaved = ref(false)
 
@@ -25,18 +19,8 @@ const displaySaved = ref(false)
  * Actions
  */
 
-function getSettings () {
-  const settingsFromStorage = localStorage.getItem('settings')
-
-  if (settingsFromStorage) {
-    settings.value = JSON.parse(settingsFromStorage)
-  }
-
-  loading.value = false
-}
-
 function saveSettings () {
-  localStorage.setItem('settings', JSON.stringify(settings.value))
+  settings.save()
 
   displaySaved.value = true
 
@@ -44,19 +28,13 @@ function saveSettings () {
     displaySaved.value = false
   }, 2000)
 }
-
-/**
- * Lifecycle
- */
-
-onMounted(getSettings)
 </script>
 
 <template>
   <form @submit.prevent="saveSettings">
     <div class="flex gap-4">
       <AppInput
-        v-model="settings.cloudId"
+        v-model="settings.data.value.cloudId"
         class="flex-1"
         type="text"
         label="Cloud ID"
@@ -65,7 +43,8 @@ onMounted(getSettings)
       />
 
       <AppInput
-        v-model="settings.email"
+        v-model="settings.data.value.email"
+
         class="flex-1"
         type="text"
         label="Email"
@@ -74,7 +53,7 @@ onMounted(getSettings)
       />
 
       <AppInput
-        v-model="settings.apiKey"
+        v-model="settings.data.value.apiKey"
         class="flex-1"
         type="text"
         label="API key"
