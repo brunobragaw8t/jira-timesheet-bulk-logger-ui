@@ -49,7 +49,7 @@ const issues = [
       />
     </div>
 
-    <h1 v-else>
+    <template v-else>
       <AppInput
         v-model="issueKey"
         type="text"
@@ -58,6 +58,6 @@ const issues = [
         instructions="Enter the key for the issue you want to log time on"
         :autocomplete-items="issues"
       />
-    </h1>
+    </template>
   </div>
 </template>
