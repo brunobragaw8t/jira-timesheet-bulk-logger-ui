@@ -6,6 +6,14 @@ const data: Ref<SettingsDto> = ref({
   apiKey: ''
 })
 
+const apiBase: Ref<string> = ref('')
+const token: Ref<string> = ref('')
+
+watch(data.value, () => {
+  apiBase.value = `https://api.atlassian.com/ex/jira/${data.value.cloudId}/rest/api/3`
+  token.value = btoa(`${data.value.email}:${data.value.apiKey}`)
+})
+
 export const useSettings = () => {
   const localStorageKey = 'settings'
 
@@ -37,5 +45,5 @@ export const useSettings = () => {
     }
   }
 
-  return { loading, data, save, get }
+  return { loading, data, apiBase, token, save, get }
 }
