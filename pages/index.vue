@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { type AutocompleteItem } from '~/types/autocomplete-item.type'
+
 /**
  * Config
  */
@@ -8,6 +10,14 @@ useHead({
 })
 
 const settings = useSettings()
+const projects = useProjects()
+
+const projectsAutocomplete = computed<AutocompleteItem[]>(() => {
+  return projects.data.value.map(project => ({
+    value: project.key,
+    label: `${project.key} - ${project.name}`
+  }))
+})
 
 /**
  * State
@@ -17,7 +27,8 @@ const settingsApplied = computed(() => {
   return settings.data.value.cloudId && settings.data.value.email && settings.data.value.apiKey
 })
 
-const issueKey = ref('')
+const issueKey = ref<string>('')
+const projectKey = ref<string>('')
 
 const issues = [
   {
@@ -50,14 +61,27 @@ const issues = [
     </div>
 
     <template v-else>
-      <AppInput
-        v-model="issueKey"
-        type="text"
-        label="Issue key"
-        placeholder="ABC-123"
-        instructions="Enter the key for the issue you want to log time on"
-        :autocomplete-items="issues"
-      />
+      <div class="flex gap-4">
+        <AppInput
+          v-model="projectKey"
+          type="text"
+          label="Project key"
+          placeholder="ABCD"
+          instructions="Enter the key for the project you want to search issues in"
+          :autocomplete-items="projectsAutocomplete"
+          class="flex-1"
+        />
+
+        <AppInput
+          v-model="issueKey"
+          type="text"
+          label="Issue key"
+          placeholder="ABC-123"
+          instructions="Enter the key for the issue you want to log time on"
+          :autocomplete-items="issues"
+          class="flex-1"
+        />
+      </div>
     </template>
   </div>
 </template>
