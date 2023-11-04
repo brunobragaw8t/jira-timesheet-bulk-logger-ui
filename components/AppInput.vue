@@ -89,7 +89,7 @@ onUnmounted(() => {
       >
 
       <div
-        v-if="displaySuggestions"
+        v-if="suggestions.length && displaySuggestions"
         class="absolute t-full l-0 rounded-md py-1 w-full bg-gray-800"
       >
         <div
