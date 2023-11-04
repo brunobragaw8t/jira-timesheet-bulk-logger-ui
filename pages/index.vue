@@ -16,6 +16,23 @@ const settings = useSettings()
 const settingsApplied = computed(() => {
   return settings.data.value.cloudId && settings.data.value.email && settings.data.value.apiKey
 })
+
+const issueKey = ref('')
+
+const issues = [
+  {
+    value: 'ABC-123',
+    label: 'ABC-123 - Fix bug'
+  },
+  {
+    value: 'ABC-456',
+    label: 'ABC-456 - Add feature'
+  },
+  {
+    value: 'ABC-789',
+    label: 'ABC-789 - Fix new'
+  }
+]
 </script>
 
 <template>
@@ -33,7 +50,14 @@ const settingsApplied = computed(() => {
     </div>
 
     <h1 v-else>
-      Index
+      <AppInput
+        v-model="issueKey"
+        type="text"
+        label="Issue key"
+        placeholder="ABC-123"
+        instructions="Enter the key for the issue you want to log time on"
+        :autocomplete-items="issues"
+      />
     </h1>
   </div>
 </template>
