@@ -8,10 +8,16 @@ const data: Ref<SettingsDto> = ref({
 
 const apiBase: Ref<string> = ref('')
 const token: Ref<string> = ref('')
+const apiHeaders: Ref<HeadersInit> = ref({})
 
 watch(data.value, () => {
   apiBase.value = `https://api.atlassian.com/ex/jira/${data.value.cloudId}/rest/api/3`
   token.value = btoa(`${data.value.email}:${data.value.apiKey}`)
+  apiHeaders.value = {
+    Authorization: `Basic ${token.value}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  }
 })
 
 export const useSettings = () => {
@@ -45,5 +51,5 @@ export const useSettings = () => {
     }
   }
 
-  return { loading, data, apiBase, token, save, get }
+  return { loading, data, apiBase, token, apiHeaders, save, get }
 }
