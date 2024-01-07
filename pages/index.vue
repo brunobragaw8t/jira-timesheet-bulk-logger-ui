@@ -11,11 +11,19 @@ useHead({
 
 const settings = useSettings()
 const projects = useProjects()
+const issues = useIssues()
 
 const projectsAutocomplete = computed<AutocompleteItem[]>(() => {
   return projects.data.value.map(project => ({
     value: project.key,
     label: `${project.key} - ${project.name}`
+  }))
+})
+
+const issuesAutocomplete = computed<AutocompleteItem[]>(() => {
+  return issues.data.value.map(issue => ({
+    value: issue.key,
+    label: issue.summary
   }))
 })
 
@@ -27,23 +35,16 @@ const settingsApplied = computed(() => {
   return settings.data.value.cloudId && settings.data.value.email && settings.data.value.apiKey
 })
 
-const issueKey = ref<string>('')
 const projectKey = ref<string>('')
+const issueKey = ref<string>('')
 
-const issues = [
-  {
-    value: 'ABC-123',
-    label: 'ABC-123 - Fix bug'
-  },
-  {
-    value: 'ABC-456',
-    label: 'ABC-456 - Add feature'
-  },
-  {
-    value: 'ABC-789',
-    label: 'ABC-789 - Fix new'
-  }
-]
+/**
+ * Actions
+ */
+
+function getIssues () {
+  useIssues().getIssues(projectKey.value)
+}
 </script>
 
 <template>
@@ -78,10 +79,14 @@ const issues = [
           label="Issue key"
           placeholder="ABC-123"
           instructions="Enter the key for the issue you want to log time on"
-          :autocomplete-items="issues"
+          :autocomplete-items="issuesAutocomplete"
           class="flex-1"
         />
       </div>
+
+      <button @click="getIssues">
+        teste
+      </button>
     </template>
   </div>
 </template>
