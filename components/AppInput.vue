@@ -95,10 +95,10 @@ onUnmounted(() => {
         <div
           v-for="(match, i) in suggestions"
           :key="i"
-          class="flex gap-2 items-center py-1 px-3 tracking-tight transition-colors hover:bg-gray-700 cursor-pointer"
+          class="flex gap-2 items-start py-1 px-3 tracking-tight transition-colors hover:bg-gray-700 cursor-pointer"
           @click="selectAutocomplete(i)"
         >
-          <span class="w-4 rounded-sm bg-gray-600 text-xs text-center">{{ i + 1 }}</span>
+          <span class="shrink-0 mt-1 w-4 rounded-sm bg-gray-600 text-xs text-center">{{ i + 1 }}</span>
           <span classs="text-sm">{{ match.label }}</span>
         </div>
       </div>
