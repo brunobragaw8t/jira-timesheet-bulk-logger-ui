@@ -43,8 +43,23 @@ const issueKey = ref<string>('')
  */
 
 function getIssues () {
+  if (!projectKey.value) {
+    return
+  }
+
   useIssues().getIssues(projectKey.value)
 }
+
+let getIssuesTimer: NodeJS.Timeout
+
+watch(projectKey, () => {
+  clearTimeout(getIssuesTimer)
+
+  getIssuesTimer = setTimeout(() => {
+    getIssues()
+  }, 300)
+})
+
 </script>
 
 <template>
@@ -83,10 +98,6 @@ function getIssues () {
           class="flex-1"
         />
       </div>
-
-      <button @click="getIssues">
-        teste
-      </button>
     </template>
   </div>
 </template>
