@@ -28,7 +28,9 @@ const suggestions = computed(() => {
 
   const results = props.autocompleteItems.filter((item) => {
     return slugify(item.label, { lower: true })
-      .includes(slugify(query, { lower: true }))
+      .includes(slugify(query, { lower: true })) ||
+      slugify(item.value, { lower: true })
+        .includes(slugify(query, { lower: true }))
   }).slice(0, 9)
 
   displaySuggestions.value = results.length > 0
