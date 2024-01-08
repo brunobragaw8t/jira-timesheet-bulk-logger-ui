@@ -78,6 +78,8 @@ watch(projectKey, () => {
 
     <template v-else>
       <div class="flex gap-4">
+        <AppSelector placeholder="No project selected" class="flex-1" />
+
         <AppInput
           v-model="projectKey"
           type="text"
