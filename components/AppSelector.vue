@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import slugify from 'slugify'
+
 defineProps<{
   label: string;
   placeholder: string;
@@ -10,6 +12,21 @@ const value = defineModel<string>()
 const modalOpen = ref<boolean>(false)
 
 const modalSearch = ref<string>('')
+
+const testItems = Array.from(Array(20).keys())
+
+const filteredItems = computed(() => {
+  if (!modalSearch) {
+    return testItems
+  }
+
+  return testItems.filter((item) => {
+    return slugify(item.toString(), { lower: true })
+      .includes(slugify(modalSearch.value, { lower: true })) ||
+      slugify(item.toString(), { lower: true })
+        .includes(slugify(modalSearch.value, { lower: true }))
+  })
+})
 </script>
 
 <template>
@@ -49,6 +66,24 @@ const modalSearch = ref<string>('')
             type="text"
             placeholder="Type your search here"
           />
+
+          <div
+            class="rounded-md border border-gray-800 h-96 overflow-auto"
+          >
+            <p v-if="!filteredItems.length" class="py-2 px-3">
+              No items found.
+            </p>
+
+            <template v-else>
+              <button
+                v-for="(i, index) in filteredItems"
+                :key="index"
+                class="block border-b border-gray-800 py-2 px-3 w-full text-left transition-colors hover:bg-gray-700 last:border-b-0"
+              >
+                {{ i }}
+              </button>
+            </template>
+          </div>
         </div>
       </div>
     </div>
