@@ -3,7 +3,7 @@ import slugify from 'slugify'
 import type { AutocompleteItem } from '~/types/autocomplete-item.type'
 
 const props = defineProps<{
-  label: string;
+  label?: string;
   type: string;
   placeholder: string;
   instructions?: string;

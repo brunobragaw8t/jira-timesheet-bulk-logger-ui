@@ -46,7 +46,6 @@ const modalSearch = ref<string>('')
         <div class="flex flex-col gap-4 p-4">
           <AppInput
             v-model="modalSearch"
-            label="Filter"
             type="text"
             placeholder="Type your search here"
           />
