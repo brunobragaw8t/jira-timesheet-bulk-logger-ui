@@ -1,6 +1,6 @@
-import type { ProjectDto } from '~/types/project-dto.type'
+import type { Project } from '~/types/project-dto.type'
 
-const data = ref<ProjectDto[]>([])
+const items = ref<Project[]>([])
 
 const settings = useSettings()
 
@@ -26,12 +26,12 @@ export const useProjects = () => {
     const json = await result.json()
 
     for (const project of json) {
-      data.value.push({
+      items.value.push({
         key: project.key,
         name: project.name
       })
     }
   }
 
-  return { data, sync }
+  return { items, sync }
 }

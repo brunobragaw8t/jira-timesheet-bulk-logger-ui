@@ -14,7 +14,7 @@ const projects = useProjects()
 const issues = useIssues()
 
 const projectsAutocomplete = computed<AutocompleteItem[]>(() => {
-  return projects.data.value.map(project => ({
+  return projects.items.value.map(project => ({
     value: project.key,
     label: `${project.key} - ${project.name}`
   }))
