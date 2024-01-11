@@ -2,7 +2,7 @@
 import slugify from 'slugify'
 import type { AppSelectorOption } from '~/types/app-selector-option.type'
 
-defineProps<{
+const props = defineProps<{
   label: string;
   placeholder: string;
   options: AppSelectorOption[];
@@ -14,18 +14,17 @@ const modalOpen = ref<boolean>(false)
 
 const modalSearch = ref<string>('')
 
-const testItems = Array.from(Array(20).keys())
-
 const filteredItems = computed(() => {
   if (!modalSearch) {
-    return testItems
+    return props.options
   }
 
-  return testItems.filter((item) => {
-    return slugify(item.toString(), { lower: true })
-      .includes(slugify(modalSearch.value, { lower: true })) ||
-      slugify(item.toString(), { lower: true })
-        .includes(slugify(modalSearch.value, { lower: true }))
+  return props.options.filter((option) => {
+    const optionLabel = slugify(option.label, { lower: true })
+    const optionValue = slugify(option.value, { lower: true })
+    const search = slugify(modalSearch.value, { lower: true })
+
+    return optionLabel.includes(search) || optionValue.includes(search)
   })
 })
 </script>
@@ -77,11 +76,27 @@ const filteredItems = computed(() => {
 
             <template v-else>
               <button
-                v-for="(i, index) in filteredItems"
-                :key="index"
-                class="block border-b border-gray-800 py-2 px-3 w-full text-left transition-colors hover:bg-gray-700 last:border-b-0"
+                v-for="i in filteredItems"
+                :key="i.value"
+                class="flex gap-3 items-center border-b border-gray-800 py-2 px-3 w-full text-left transition-colors hover:bg-gray-700 last:border-b-0"
               >
-                {{ i }}
+                <span class="flex-shrink-0 w-14">
+                  <img :src="i.icon" class="block w-6 mx-auto mb-1">
+                  <span class="block text-center text-xs truncate">{{ i.value }}</span>
+                </span>
+
+                <span class="flex-grow-1 flex flex-col overflow-hidden">
+                  <span
+                    v-if="i.subLabel"
+                    class="text-xs"
+                  >
+                    {{ i.subLabel }}
+                  </span>
+
+                  <span class="truncate">
+                    {{ i.label }}
+                  </span>
+                </span>
               </button>
             </template>
           </div>
