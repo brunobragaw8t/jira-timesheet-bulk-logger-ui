@@ -28,7 +28,8 @@ export const useProjects = () => {
     for (const project of json) {
       items.value.push({
         key: project.key,
-        name: project.name
+        name: project.name,
+        avatarUrl: project.avatarUrls['48x48']
       })
     }
   }
