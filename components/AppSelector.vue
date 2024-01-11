@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import slugify from 'slugify'
+import type { AppSelectorOption } from '~/types/app-selector-option.type'
 
 defineProps<{
   label: string;
   placeholder: string;
-  options: any[];
+  options: AppSelectorOption[];
 }>()
 
 const value = defineModel<string>()
