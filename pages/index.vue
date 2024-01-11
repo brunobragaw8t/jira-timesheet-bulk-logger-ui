@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { type AppSelectorOption } from '~/types/app-selector-option.type'
 import { type AutocompleteItem } from '~/types/autocomplete-item.type'
 
 /**
@@ -17,6 +18,14 @@ const projectsAutocomplete = computed<AutocompleteItem[]>(() => {
   return projects.items.value.map(project => ({
     value: project.key,
     label: `${project.key} - ${project.name}`
+  }))
+})
+
+const projectsAsOptions = computed<AppSelectorOption[]>(() => {
+  return projects.items.value.map<AppSelectorOption>(p => ({
+    label: p.name,
+    icon: p.avatarUrl,
+    value: p.key
   }))
 })
 
@@ -82,6 +91,7 @@ watch(projectKey, () => {
           label="Project"
           placeholder="No project selected"
           class="flex-1"
+          :options="projectsAsOptions"
         />
 
         <AppInput
