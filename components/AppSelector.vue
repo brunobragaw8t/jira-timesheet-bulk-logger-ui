@@ -47,6 +47,7 @@ const filteredItems = computed(() => {
     <div
       v-if="modalOpen"
       class="flex justify-center items-center fixed inset-0 z-10 p-4 bg-black bg-opacity-50"
+      @click.self="modalOpen = false"
     >
       <div class="rounded-md w-96 max-w-full bg-gray-900">
         <div class="flex items-center justify-between border-b border-gray-800 p-4">
